@@ -1,2 +1,2 @@
-export const contacts = state => state.contacts.contacts;
-export const filter = state => state.contacts.filter;
+export const contactsSelect = state => state.contacts.contacts;
+export const filterSelect = state => state.contacts.filter;

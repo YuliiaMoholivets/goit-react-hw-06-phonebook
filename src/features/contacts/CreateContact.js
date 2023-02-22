@@ -1,48 +1,92 @@
-import { nanoid } from "@reduxjs/toolkit";
+// import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addContact } from "./redux/contacts.slice";
+import { useSelector,useDispatch } from "react-redux";
+import { addContact } from "../../redux/contacts.slice";
 import styles from './CreateContact.module.css';
+import { contactsSelect } from 'redux/selector';
 
 
-export const CreateContact = () => {
-const [newUserFirstName, setNewUserFirstName] = useState("");
-const [newUserNumber, setNewUserNumber]=useState("");
-const dispatch = useDispatch();
 
-  const onAddNewContact = () => {
+  export const CreateContact = () => {
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+    const contactsAdd = useSelector(contactsSelect);
+    const dispatch = useDispatch();
 
-    const newContact = { id: nanoid(), firstName: newUserFirstName, userNumber: newUserNumber };
-    dispatch(addContact(newContact));
-    setNewUserFirstName("");
-    setNewUserNumber("");
+    // const onAddNewContact = (name, number) => {
+    //   return contactsAdd?.some(contact => contact.name === name)
+    //     ? alert(`${name} is already in your contacts`)
+    //     : dispatch(
+    //       addContact({
+    //         name,
+    //         number,
+    //         id: nanoid(),
+    //       })
+    //     );
+    // };
+
+    const handleChange = e => {
+      const { name, value } = e.target;
+      switch (name) {
+        case 'name':
+          setName(value);
+          break;
+        case 'number':
+          setNumber(value);
+          break;
+        default: {
+          return;
+        }
+      }
+    };
+    const handleSubmit = e => {
+      e.preventDefault();
+      const newContact = contactsAdd.some(
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() ||
+        contact.number === number
+      );
+
+    if (newContact) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContact({ name, number }));
+    setName('');
+    setNumber('');
+    
+   
+    };
+    
+    return (
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h3 className={styles.label}>Phonebook</h3>
+        <input
+          className={styles.input}
+          text="text"
+          name="name"
+          placeholder="Enter name of contact"
+          value={name}
+          onChange={handleChange}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+        />
+        <input
+          className={styles.input}
+          placeholder="Enter contact number "
+          type="tel"
+          value={number}
+          onChange={handleChange}
+          name="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+        />
+        <button className={styles.btn} type="submit">
+          Add contact
+        </button>
+      </form>
+    );
   };
-  // const formSubmit = (e) => {
-  //   preventDe
-  // }
-
-  return (
-    <form className={styles.form}>
-      <h3 className={styles.label}>Add a contact</h3>
-      <input className={styles.input}
-        placeholder="Enter name of contact"
-        value={newUserFirstName}
-        onChange={(e) => setNewUserFirstName(e.target.value)}
-        name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
-      />
-      <input className={styles.input}
-        placeholder="Enter contact number "
-        value={newUserNumber}
-        onChange={(e) => setNewUserNumber(e.target.value)}
-        name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        required
-      />
-      <button className={styles.btn} onClick={onAddNewContact}>Add contact</button>
-    </form>
-  );
-};

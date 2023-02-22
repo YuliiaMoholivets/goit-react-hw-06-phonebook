@@ -1,18 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
-import { setFilter } from "./redux/contacts.slice";
+import { setFilter } from "../../redux/contacts.slice";
 import styles from './ContactsFilter.module.css';
-import {filter} from 'redux/selector';
+import { filterSelect} from 'redux/selector';
 
 export const ContactsFilter = () => {
   const dispatch = useDispatch();
-  const filterAdd = useSelector(filter);
-
-  // const onQueryChenged = () => {
-  //   dispatch(setFilter(filterAdd ));
-
-  // };
-
-
+  const filterAdd = useSelector(filterSelect);
   return (
     <>
       <h4 className={styles.label}>Find your contact</h4>
