@@ -5,12 +5,12 @@ import {filter} from 'redux/selector';
 
 export const ContactsFilter = () => {
   const dispatch = useDispatch();
-  const filterSearch = useSelector(filter);
+  const filterAdd = useSelector(filter);
 
-  const onQueryChenged = (filterSearch) => {
-    dispatch(setFilter(filterSearch));
+  // const onQueryChenged = () => {
+  //   dispatch(setFilter(filterAdd ));
 
-  };
+  // };
 
 
   return (
@@ -18,8 +18,8 @@ export const ContactsFilter = () => {
       <h4 className={styles.label}>Find your contact</h4>
       <input  className={styles.input}
         placeholder="Enter contact name"
-        onChange={(e) => onQueryChenged(e.target.value)}
-        value={filter}
+        onChange={(e) => dispatch(setFilter(e.target.value)) }
+        value={filterAdd}
       />
     </>
   );
