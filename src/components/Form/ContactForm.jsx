@@ -1,8 +1,8 @@
-// import { nanoid } from "@reduxjs/toolkit";
+
 import { useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { addContact } from "../../redux/contacts.slice";
-import styles from './CreateContact.module.css';
+import styles from 'components/Form/ContactForm.module.css';
 import { contactsSelect } from 'redux/selector';
 
 
@@ -12,19 +12,6 @@ import { contactsSelect } from 'redux/selector';
     const [number, setNumber] = useState('');
     const contactsAdd = useSelector(contactsSelect);
     const dispatch = useDispatch();
-
-    // const onAddNewContact = (name, number) => {
-    //   return contactsAdd?.some(contact => contact.name === name)
-    //     ? alert(`${name} is already in your contacts`)
-    //     : dispatch(
-    //       addContact({
-    //         name,
-    //         number,
-    //         id: nanoid(),
-    //       })
-    //     );
-    // };
-
     const handleChange = e => {
       const { name, value } = e.target;
       switch (name) {

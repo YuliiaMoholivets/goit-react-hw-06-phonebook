@@ -1,5 +1,5 @@
-import { ContactPage } from "features/contacts/Contacts";
-import styles from 'App.module.css';
+import { ContactPage } from 'components/Contacts/Contacts';
+import styles from 'components/App/App.module.css';
 
 function App() {
   return (
